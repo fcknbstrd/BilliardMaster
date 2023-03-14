@@ -236,8 +236,9 @@ var I : Integer;
 begin
   // Let's enable realtime global illumination (only on modern machines - otherwise
   // a very low FPS may occur)
-  GorillaViewport1.GlobalIllumDetail := 3;
+  GorillaViewport1.GlobalIllumDetail := 4;
   GorillaViewport1.GlobalIllumSoftness := 2;
+  GorillaViewport1.ShadowStrength := 2;
 
   // Prepare list of hole dummies
   FHoles[0] := Hole1;
@@ -751,19 +752,18 @@ begin
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
+var LPos : TPoint3D;
 begin
   // Check if shooting is available or not
   Inc(FToggleCheck);
   if (FToggleCheck mod 10 = 0) then
     ToggleAvailability();
 
-  // Adjust camera to white ball position
-  CameraTarget.BeginUpdate();
-  try
-    CameraTarget.Position.Point := WhiteBall.Position.Point;
-  finally
-    CameraTarget.EndUpdate();
-  end;
+  // Adjust camera to white ball position - due to tiny hills on billiard table
+  // the camera jumps, which we don't want
+  LPos := WhiteBall.Position.Point;
+  LPos.Y := CameraTarget.Position.Y;
+  CameraTarget.Position.Point := LPos;
 end;
 
 end.
