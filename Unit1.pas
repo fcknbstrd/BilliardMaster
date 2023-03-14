@@ -762,7 +762,7 @@ begin
   // Adjust camera to white ball position - due to tiny hills on billiard table
   // the camera jumps, which we don't want
   LPos := WhiteBall.Position.Point;
-  LPos.Y := CameraTarget.Position.Y;
+  LPos.Y := -3.75;
   CameraTarget.Position.Point := LPos;
 end;
 
