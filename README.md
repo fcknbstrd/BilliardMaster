@@ -6,10 +6,10 @@ The game was not fully implemented, but it's a good start to finish all the rule
 ![Alt text](g3d-billiard-master.png?raw=true "BilliardMaster")
 
 Features:
-+ Checks if balls into holes and marks them on the left side
-+ Checks if balls fall of the table and re-position them on the table
-+ Checks if the white ball falls into a hole and re-positions it
-+ Sound effect on ball collision depending on their intensity of crash for a louder or softer clack-sound
++ Checks if balls fell into holes and marks them on the left side
++ Checks if balls fell off the table and re-position them on the table
++ Checks if the white ball fell into a hole and re-positions it
++ Sound effect on ball collisions, depending on their intensity of crash (louder or softer clack-sound)
 + Checks if balls are standing still to unlock shooting mode
 
 __NOTICE:__ The game was developed with a NVIDIA GeForce 720 GT (2014). Screenshots and videos material is very limited due to bad performance.
@@ -27,6 +27,7 @@ Used components:
 ##Requirements:
 - You need to at least Delphi 10.1+ and Gorilla3D Developer Edition package to be installed
 - A GPU with at least OpenGL 4.3
+- Gorilla3D Developer Edition or GAMEPACKAGE
 
 ##Installation
 1) Install Gorilla3D from GetIt-Package-Manager
