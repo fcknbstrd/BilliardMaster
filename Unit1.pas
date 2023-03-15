@@ -558,8 +558,27 @@ begin
   // Check for various states:
   LBodyAObj := TObject(ABodyA.GetFirstColliderPtr()^.UserData);
   LBodyBObj := TObject(ABodyB.GetFirstColliderPtr()^.UserData);
+  
+  // 1) billiard table collision can be ignored
+  if (LBodyAObj = BilliardTable) or (LBodyBObj = BilliardTable) then
+	Exit;
+  
+  // 2) ball-on-ball collision for sound playback
+  // This comes first, because it's the most possible case
+  // both other case cannot happen, if this happened
+  if IsBall(LBodyAObj) and IsBall(LBodyBObj) then
+  begin
+//    Log.d('ball #%d and ball #%d collision',
+//      [TFmxObject(LBodyAObj).Tag, TFmxObject(LBodyBObj).Tag]);
 
-  // 1) ball in hole - Body A or B is a hole
+    PlayBallSound(TFmxObject(LBodyAObj).Tag - 1, ABodyA.LinearVelocity.Length);
+    PlayBallSound(TFmxObject(LBodyBObj).Tag - 1, ABodyB.LinearVelocity.Length);
+	
+	// stop here - both other cases are not possible
+	Exit;
+  end;  
+
+  // 3) ball in hole - Body A or B is a hole
   if IsHole(LBodyAObj) then
   begin
     // Body B is a ball?
@@ -621,7 +640,7 @@ begin
     end;
   end;
 
-  // 2) ball off the table
+  // 4) ball off the table
   if (LBodyAObj = Floor) then
   begin
     Log.d('ball #%d fell of the table', [TFmxObject(LBodyBObj).Tag]);
@@ -645,16 +664,6 @@ begin
       ResetBallOrigin(LBodyAObj as TGorillaSphere, FBallOrigins[TFmxObject(LBodyAObj).Tag]);
 
     PlayBallSound(TFmxObject(LBodyAObj).Tag - 1, ABodyA.LinearVelocity.Length);
-  end;
-
-  // 3) ball-on-ball collision for sound playback
-  if IsBall(LBodyAObj) and IsBall(LBodyBObj) then
-  begin
-//    Log.d('ball #%d and ball #%d collision',
-//      [TFmxObject(LBodyAObj).Tag, TFmxObject(LBodyBObj).Tag]);
-
-    PlayBallSound(TFmxObject(LBodyAObj).Tag - 1, ABodyA.LinearVelocity.Length);
-    PlayBallSound(TFmxObject(LBodyBObj).Tag - 1, ABodyB.LinearVelocity.Length);
   end;
 end;
 
